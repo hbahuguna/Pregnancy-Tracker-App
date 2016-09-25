@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_weight="1">
+
+    <TextView
+        android:id="@+id/days"
+        android:layout_weight="0.8"
+        android:text="Gestational Age"
+        tools:text="Overlay"
+        style="@style/today_item_heading" />
+    <TextView
+        android:id="@+id/days_value"
+        android:layout_weight="0.8"
+        android:text="N/A"
+        tools:text="Overlay"
+        style="@style/today_item" />
+    <TextView
+        android:id="@+id/countDown"
+        android:layout_weight="0.8"
+        android:text="Countdown"
+        tools:text="Overlay"
+        style="@style/today_item_heading" />
+    <TextView
+        android:id="@+id/countDown_value"
+        android:layout_weight="0.8"
+        android:text="N/A"
+        tools:text="Overlay"
+        style="@style/today_item" />
+    <TextView
+        android:id="@+id/size"
+        android:layout_weight="0.8"
+        android:text="Your Baby's Size"
+        tools:text="Overlay"
+        style="@style/today_item_heading" />
+    <TextView
+        android:id="@+id/size_value"
+        android:layout_weight="0.12"
+        android:text="N/A"
+        tools:text="Overlay"
+        style="@style/today_item" />
+    <TextView
+        android:id="@+id/development"
+        android:layout_weight="0.8"
+        android:text="Baby Development"
+        tools:text="Overlay"
+        style="@style/today_item_heading" />
+    <TextView
+        android:id="@+id/development_value"
+        android:layout_weight="0.40"
+        android:text="N/A"
+        tools:text="Overlay"
+        style="@style/today_item" />
+</LinearLayout>

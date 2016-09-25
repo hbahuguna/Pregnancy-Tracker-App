@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<tabs>
+    <tab
+        id="@+id/today_item"
+        icon="@drawable/ic_today"
+        title="Today"
+        barColorWhenSelected="@color/colorAccent" />
+    <tab
+        id="@+id/planner_item"
+        icon="@drawable/ic_planner"
+        title="Planner"
+        barColorWhenSelected="#5D4037" />
+    <tab
+        id="@+id/tip_item"
+        icon="@drawable/ic_action_name"
+        title="Tip"
+        barColorWhenSelected="#7B1FA2" />
+    <tab
+        id="@+id/quiz_item"
+        icon="@drawable/ic_quiz"
+        title="Quiz"
+        barColorWhenSelected="#FF5252" />
+</tabs>

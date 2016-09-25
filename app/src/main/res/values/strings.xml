@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Pregnancy Tips N Tools</string>
+    <string name="selected_date">The date you picked will be shown here.</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="dismiss_date">Dismiss on pause (eg: orientation change)</string>
+    <string name="empty_list">No Data</string>
+</resources>
