@@ -29,7 +29,17 @@ public class TabFragment {
                 }
                 break;
             case R.id.planner_item:
+                if (savedInstanceState == null) {
+                    // Create the planner fragment and add it to the activity
+                    // using a fragment transaction.
 
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(PlannerFragment.PLANNER_URI, intent.getData());
+
+                    fragment = new PlannerFragment();
+                    fragment.setArguments(arguments);
+
+                }
                 break;
             case R.id.tip_item:
 

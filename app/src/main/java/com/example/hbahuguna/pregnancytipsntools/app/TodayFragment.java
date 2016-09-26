@@ -1,33 +1,16 @@
 package com.example.hbahuguna.pregnancytipsntools.app;
 
-import android.support.v4.app.LoaderManager;
-import android.support.v4.content.CursorLoader;
-import android.support.v4.content.Loader;
-import android.support.v4.widget.CursorAdapter;
-
 import android.content.Context;
-import android.content.Intent;
 import android.database.Cursor;
-import android.graphics.Bitmap;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
-import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.StaggeredGridLayoutManager;
-import android.text.Html;
-import android.text.format.DateUtils;
-import android.text.method.LinkMovementMethod;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
 import android.widget.TextView;
 
-import com.example.hbahuguna.pregnancytipsntools.app.data.BabyContract;
 import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
-import com.example.hbahuguna.pregnancytipsntools.app.data.DataLoader;
 
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
@@ -54,7 +37,6 @@ public class TodayFragment extends Fragment {
     private View mRootView;
     private int mWeeks;
 
-    private Cursor mCursor;
 
     public TodayFragment() {
     }
@@ -82,7 +64,6 @@ public class TodayFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Your Baby Today");
-        //getLoaderManager().initLoader(0, null, this);
     }
 
     private int getWeeks() {
@@ -93,28 +74,6 @@ public class TodayFragment extends Fragment {
         DateTime d2 = new DateTime(conception_year, conception_month, conception_day, 0, 0);
         return Weeks.weeksBetween(d2, d1).getWeeks();
     }
-
-    /*@Override
-    public Loader<Cursor> onCreateLoader(int i, Bundle bundle) {
-        return DataLoader.newInstanceForGestationaAge(this.getActivity(), mWeeks);
-    }
-
-    @Override
-    public void onLoadFinished(Loader<Cursor> cursorLoader, Cursor cursor) {
-        mCursor = cursor;
-        if (mCursor != null && !mCursor.moveToFirst()) {
-            Log.e(TAG, "Error reading detail cursor");
-            mCursor.close();
-            mCursor = null;
-        }
-        bindViews();
-    }
-
-    @Override
-    public void onLoaderReset(Loader<Cursor> loader) {
-        mCursor = null;
-        bindViews();
-    }*/
 
     private void bindViews() {
         if (mRootView == null) {
@@ -130,7 +89,7 @@ public class TodayFragment extends Fragment {
         mBabyDays.setText(mWeeks + " weeks");
         int weeksLeft = 40 - mWeeks;
         mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
-        mBabySize.setText(mDbHelper.getData(mWeeks, "size").getString(0));
+        mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData(mWeeks, "size").getString(0));
         mBabyDevelopment.setText(mDbHelper.getData(mWeeks, "development").getString(0));
         mDbHelper.close();
     }
