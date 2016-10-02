@@ -5,6 +5,7 @@ import android.content.Context;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
+import org.joda.time.Weeks;
 
 /**
  * Created by himanshu on 9/30/16.
@@ -26,6 +27,11 @@ public class Utils {
     public static int getDays(Activity activity) {
         DateTime d1 = new DateTime();
         return Days.daysBetween(Utils.getConceptionDay(activity, d1), d1).getDays();
+    }
+
+    public static int getWeeks(Activity activity) {
+        DateTime d1 = new DateTime();
+        return Weeks.weeksBetween(Utils.getConceptionDay(activity, d1), d1).getWeeks();
     }
 
 }

@@ -54,18 +54,13 @@ public class TodayFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mWeeks = getWeeks();
+        mWeeks = Utils.getWeeks(this.getActivity());
     }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         getActivity().setTitle("Your Baby Today");
-    }
-
-    private int getWeeks() {
-        DateTime d1 = new DateTime();
-        return Weeks.weeksBetween(Utils.getConceptionDay(this.getActivity(), d1), d1).getWeeks();
     }
 
     private void bindViews() {

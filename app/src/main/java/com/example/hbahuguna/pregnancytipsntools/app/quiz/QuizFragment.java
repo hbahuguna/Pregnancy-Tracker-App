@@ -39,6 +39,7 @@ public class QuizFragment extends Fragment {
     List<Question> quesList;
     int score=0;
     int qid=0;
+    Question nextQ;
     Question currentQ;
     TextView txtQuestion;
     TextView result;
@@ -74,7 +75,6 @@ public class QuizFragment extends Fragment {
            } while(cursor.moveToNext());
         }
 
-        currentQ=quesList.get(0);
         result=(TextView)mRootView.findViewById(R.id.textResult);
         result.setMovementMethod(new ScrollingMovementMethod());
         result.setText("This quiz is about understanding yourself and all the experiences that make up pregnancy." +
@@ -98,28 +98,32 @@ public class QuizFragment extends Fragment {
         rdd.setVisibility(View.GONE);
         rde.setVisibility(View.GONE);
         rdf.setVisibility(View.GONE);
-        //setQuestionView();
         butNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                RadioGroup grp=(RadioGroup) getActivity().findViewById(R.id.radioGroup1);
-                RadioButton answer=(RadioButton)getActivity().findViewById(grp.getCheckedRadioButtonId());
                 if(qid < 19){
-                    currentQ=quesList.get(qid);
-                    setQuestionView();
-                    if(currentQ.getCategory().equals("sex")) {
-                        sexScore += currentQ.getScore(answer.getText().toString());
-                    } else if(currentQ.getCategory().equals("cognitive")) {
-                        cognitiveScore += currentQ.getScore(answer.getText().toString());
-                    } else if(currentQ.getCategory().equals("appetite")) {
-                        if(qid != 11) {
-                            appetiteScore += currentQ.getScore(answer.getText().toString());
-                        } else {
-                            appetiteScore *= currentQ.getScore(answer.getText().toString());
+                    nextQ=quesList.get(qid);
+                    if(qid > 0)
+                        currentQ=quesList.get(qid-1);
+                    if(currentQ != null) {
+                        RadioGroup grp=(RadioGroup) mRootView.findViewById(R.id.radioGroup1);
+                        RadioButton answer=(RadioButton)mRootView.findViewById(grp.getCheckedRadioButtonId());
+
+                        if (currentQ.getCategory().equals("sex")) {
+                            sexScore += currentQ.getScore(answer.getText().toString());
+                        } else if (currentQ.getCategory().equals("cognitive")) {
+                            cognitiveScore += currentQ.getScore(answer.getText().toString());
+                        } else if (currentQ.getCategory().equals("appetite")) {
+                            if (qid != 11) {
+                                appetiteScore += currentQ.getScore(answer.getText().toString());
+                            } else {
+                                appetiteScore *= currentQ.getScore(answer.getText().toString());
+                            }
+                        } else if (currentQ.getCategory().equals("bodyImage")) {
+                            bodyImageScore += currentQ.getScore(answer.getText().toString());
                         }
-                    } else if(currentQ.getCategory().equals("bodyImage")) {
-                        bodyImageScore += currentQ.getScore(answer.getText().toString());
                     }
+                    setQuestionView();
                 } else {
                     overAllScore = sexScore * 3 + cognitiveScore * 3 + appetiteScore + bodyImageScore ;
                     setResultView();
@@ -128,6 +132,7 @@ public class QuizFragment extends Fragment {
         });
         return mRootView;
     }
+
     private void setQuestionView() {
         result.setVisibility(View.GONE);
         txtQuestion.setVisibility(View.VISIBLE);
@@ -137,16 +142,16 @@ public class QuizFragment extends Fragment {
         rdd.setVisibility(View.VISIBLE);
         rde.setVisibility(View.VISIBLE);
         rdf.setVisibility(View.VISIBLE);
-        txtQuestion.setText(currentQ.getQUESTION());
-        rda.setText(currentQ.getOPTA());
-        rdb.setText(currentQ.getOPTB());
-        rdc.setText(currentQ.getOPTC());
-        rdd.setText(currentQ.getOPTD());
-        rde.setText(currentQ.getOPTE());
+        txtQuestion.setText(nextQ.getQUESTION());
+        rda.setText(nextQ.getOPTA());
+        rdb.setText(nextQ.getOPTB());
+        rdc.setText(nextQ.getOPTC());
+        rdd.setText(nextQ.getOPTD());
+        rde.setText(nextQ.getOPTE());
         rdf.setVisibility(View.GONE);
-        if (currentQ.getOPTF() != null) {
+        if (nextQ.getOPTF() != null) {
             rdf.setVisibility(View.VISIBLE);
-            rdf.setText(currentQ.getOPTF());
+            rdf.setText(nextQ.getOPTF());
         }
         qid++;
     }
@@ -200,7 +205,7 @@ public class QuizFragment extends Fragment {
                     "Its really crucial that you exercise and eat balanced, nutritious meals during pregnancy.\n\n";
         }
         resultString += "YOUR OVERALL SCORE IS " + overAllScore + ":\n";
-        if (overAllScore >= 30 && overAllScore <= 70) {
+        if (overAllScore >= 29 && overAllScore <= 70) {
             resultString += "Congratulations! You have acheived some real balance in your pregnant life." +
                     "There is a lot ahead of you but you are quite centered so far";
         } else if (overAllScore > 70 && overAllScore <= 150) {

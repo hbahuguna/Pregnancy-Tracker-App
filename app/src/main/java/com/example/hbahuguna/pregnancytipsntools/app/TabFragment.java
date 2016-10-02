@@ -56,7 +56,17 @@ public class TabFragment {
                 }
                 break;
             case R.id.tip_item:
+                if (savedInstanceState == null) {
+                    // Create the quiz fragment and add it to the activity
+                    // using a fragment transaction.
 
+                    Bundle arguments = new Bundle();
+                    arguments.putParcelable(TipsFragment.TIPS_URI, intent.getData());
+
+                    fragment = new TipsFragment();
+                    fragment.setArguments(arguments);
+
+                }
                 break;
 
         }
