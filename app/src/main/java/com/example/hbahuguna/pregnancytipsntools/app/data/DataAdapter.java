@@ -59,23 +59,23 @@ public class DataAdapter
         mDbHelper.close();
     }
 
-    public Cursor getData(int id, String field)
-    {
-        try
-        {
-            String sql ="SELECT " + field +" FROM items where _id = " + id;
+    public Cursor getData(String field, String table, String filter) {
+        try {
+            String sql ="SELECT " + field +" FROM " + table + " " + filter;
 
             Cursor mCur = mDb.rawQuery(sql, null);
-            if (mCur!=null)
-            {
+            if (mCur!=null) {
                 mCur.moveToNext();
             }
             return mCur;
         }
-        catch (SQLException mSQLException)
-        {
+        catch (SQLException mSQLException) {
             Log.e(TAG, "getTestData >>"+ mSQLException.toString());
             throw mSQLException;
         }
+    }
+
+    public Cursor getData(String field, String table) {
+        return getData(field, table, "");
     }
 }

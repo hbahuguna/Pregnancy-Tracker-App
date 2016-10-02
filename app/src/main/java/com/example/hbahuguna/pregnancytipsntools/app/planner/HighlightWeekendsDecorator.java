@@ -1,4 +1,4 @@
-package com.example.hbahuguna.pregnancytipsntools.app;
+package com.example.hbahuguna.pregnancytipsntools.app.planner;
 
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;

@@ -1,8 +1,9 @@
-package com.example.hbahuguna.pregnancytipsntools.app;
+package com.example.hbahuguna.pregnancytipsntools.app.planner;
 
 import android.app.Activity;
 import android.graphics.drawable.Drawable;
 
+import com.example.hbahuguna.pregnancytipsntools.app.R;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.DayViewDecorator;
 import com.prolificinteractive.materialcalendarview.DayViewFacade;

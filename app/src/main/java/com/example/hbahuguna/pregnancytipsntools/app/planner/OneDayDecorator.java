@@ -1,4 +1,4 @@
-package com.example.hbahuguna.pregnancytipsntools.app;
+package com.example.hbahuguna.pregnancytipsntools.app.planner;
 
 import android.graphics.Typeface;
 import android.text.style.RelativeSizeSpan;

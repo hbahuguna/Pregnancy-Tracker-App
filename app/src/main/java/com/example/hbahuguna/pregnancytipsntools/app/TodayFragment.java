@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
+import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
 
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
@@ -24,10 +25,6 @@ public class TodayFragment extends Fragment {
 
     private static final String LOG_TAG = TodayFragment.class.getSimpleName();
     static final String TODAY_URI = "TODAY_URI";
-    static final String CONCEPTION_DAY =  "day";
-    static final String CONCEPTION_MONTH =  "month";
-    static final String CONCEPTION_YEAR =  "year";
-    static final String KEY =  "com.pregnancytipsntools";
 
     private Uri mUri;
     private TextView mBabyDays;
@@ -68,11 +65,7 @@ public class TodayFragment extends Fragment {
 
     private int getWeeks() {
         DateTime d1 = new DateTime();
-        int conception_year = this.getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_YEAR,d1.year().get());
-        int conception_month = this.getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_MONTH,d1.monthOfYear().get());
-        int conception_day = this.getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_DAY,d1.dayOfMonth().get());
-        DateTime d2 = new DateTime(conception_year, conception_month, conception_day, 0, 0);
-        return Weeks.weeksBetween(d2, d1).getWeeks();
+        return Weeks.weeksBetween(Utils.getConceptionDay(this.getActivity(), d1), d1).getWeeks();
     }
 
     private void bindViews() {
@@ -89,8 +82,9 @@ public class TodayFragment extends Fragment {
         mBabyDays.setText(mWeeks + " weeks");
         int weeksLeft = 40 - mWeeks;
         mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
-        mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData(mWeeks, "size").getString(0));
-        mBabyDevelopment.setText(mDbHelper.getData(mWeeks, "development").getString(0));
+        String filter = "where _id = " + mWeeks;
+        mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData("size", "items", filter).getString(0));
+        mBabyDevelopment.setText(mDbHelper.getData("development", "items", filter).getString(0));
         mDbHelper.close();
     }
 
