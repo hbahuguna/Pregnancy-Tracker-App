@@ -13,7 +13,7 @@
         style="@style/today_item_heading" />
     <TextView
         android:id="@+id/tip"
-        android:text="N/A"
+        android:text="Your first tip will be populated after at least one week of conception."
         tools:text="Overlay"
         style="@style/tip_item" />
 </LinearLayout>

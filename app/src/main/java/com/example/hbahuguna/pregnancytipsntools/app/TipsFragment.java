@@ -40,12 +40,14 @@ public class TipsFragment extends Fragment {
 
         mRootView = inflater.inflate(R.layout.fragment_tip, container, false);
         mTip = (TextView) mRootView.findViewById(R.id.tip);
-        DataAdapter mDbHelper = new DataAdapter(this.getActivity());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
-        String filter = "where _id = " + mWeeks;
-        mTip.setText(mDbHelper.getData("tip", "items", filter).getString(0));
-        mDbHelper.close();
+        if(mWeeks >= 1) {
+            DataAdapter mDbHelper = new DataAdapter(this.getActivity());
+            mDbHelper.createDatabase();
+            mDbHelper.open();
+            String filter = "where _id = " + mWeeks;
+            mTip.setText(mDbHelper.getData("tip", "items", filter).getString(0));
+            mDbHelper.close();
+        }
         return mRootView;
     }
 

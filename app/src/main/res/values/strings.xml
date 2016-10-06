@@ -1,6 +1,8 @@
 <resources>
     <string name="app_name">Pregnancy Tips N Tools</string>
-    <string name="selected_date">The date you picked will be shown here.</string>
+    <string name="selected_date">Gestational age, or the age of the baby, is calculated from the first day of the mother’s last menstrual period.
+        Since the exact date of conception is almost never known, the first day of the last menstrual period is used to measure how old the baby is.
+        Please pick the first day of your last menstrual period using the Pick Date button below:</string>
     <string name="pick_date">Pick Date</string>
     <string name="dismiss_date">Dismiss on pause (eg: orientation change)</string>
     <string name="empty_list">No Data</string>

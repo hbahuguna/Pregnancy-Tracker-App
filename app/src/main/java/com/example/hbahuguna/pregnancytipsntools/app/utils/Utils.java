@@ -19,7 +19,7 @@ public class Utils {
 
     public static DateTime getConceptionDay(Activity activity, DateTime d1) {
         int conception_year = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_YEAR,d1.year().get());
-        int conception_month = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_MONTH,d1.monthOfYear().get());
+        int conception_month = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_MONTH,d1.monthOfYear().get()) + 1;
         int conception_day = activity.getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_DAY,d1.dayOfMonth().get());
         return new DateTime(conception_year, conception_month, conception_day, 0, 0);
     }

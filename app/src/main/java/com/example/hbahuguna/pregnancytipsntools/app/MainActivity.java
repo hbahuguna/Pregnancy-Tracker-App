@@ -24,6 +24,8 @@ import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 import net.danlew.android.joda.JodaTimeAndroid;
 
+import org.joda.time.DateTime;
+
 public class MainActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
 
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements
     static final String CONCEPTION_DAY =  "day";
     static final String CONCEPTION_MONTH =  "month";
     static final String CONCEPTION_YEAR =  "year";
+    BottomBar bottomBar;
     Bundle instanceState = null;
 
     private FrameLayout frameLayout;
@@ -41,8 +44,21 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        JodaTimeAndroid.init(this);
+        final Bundle instanceState1 = savedInstanceState;
+        if(savedInstanceState != null){
+            bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+            bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
+                @Override
+                public void onTabSelected(@IdRes int tabId) {
+                    getSupportFragmentManager().beginTransaction()
+                            .add(R.id.frame, TabFragment.get(tabId, instanceState, getIntent()))
+                            .commit();
+                }
+            });
+        }
+
         instanceState = savedInstanceState;
+        JodaTimeAndroid.init(this);
 
         if(isFirstTime()) {
             setContentView(R.layout.date_picker);
@@ -58,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements
                             now.get(Calendar.MONTH),
                             now.get(Calendar.DAY_OF_MONTH)
                     );
+                    dpd.setMaxDate(now);
                     dpd.show(getFragmentManager(), "Datepickerdialog");
                 }
             });
@@ -69,7 +86,7 @@ public class MainActivity extends AppCompatActivity implements
 
     public  void todayView() {
         setContentView(R.layout.activity_main);
-        BottomBar bottomBar = (BottomBar) findViewById(R.id.bottomBar);
+        bottomBar = (BottomBar) findViewById(R.id.bottomBar);
         bottomBar.setOnTabSelectListener(new OnTabSelectListener() {
             @Override
             public void onTabSelected(@IdRes int tabId) {
@@ -88,14 +105,17 @@ public class MainActivity extends AppCompatActivity implements
 
     @Override
     public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
-        monthOfYear += 1;
         getSharedPreferences(KEY, Context.MODE_PRIVATE).edit().putInt(CONCEPTION_DAY, dayOfMonth).commit();
-        getSharedPreferences(KEY, Context.MODE_PRIVATE).edit().putInt(CONCEPTION_MONTH, monthOfYear).commit();
+        getSharedPreferences(KEY, Context.MODE_PRIVATE).edit().putInt(CONCEPTION_MONTH, monthOfYear ).commit();
         getSharedPreferences(KEY, Context.MODE_PRIVATE).edit().putInt(CONCEPTION_YEAR, year).commit();
-        String date = "You picked the following date: "+dayOfMonth+"/"+monthOfYear+"/"+year;
-        dateTextView.setText(date);
         setKeyIsFirstTime();
         todayView();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt("tab_id", bottomBar.getCurrentTabId());
     }
 
     public boolean isFirstTime(){

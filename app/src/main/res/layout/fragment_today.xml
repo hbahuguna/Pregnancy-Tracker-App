@@ -17,7 +17,7 @@
     <TextView
         android:id="@+id/days_value"
         android:layout_weight="0.8"
-        android:text="N/A"
+        android:text="Age will be populated after at least one week of conception."
         tools:text="Overlay"
         style="@style/today_item" />
     <TextView
@@ -29,7 +29,7 @@
     <TextView
         android:id="@+id/countDown_value"
         android:layout_weight="0.8"
-        android:text="N/A"
+        android:text="Countdown will be populated after at least one week of conception."
         tools:text="Overlay"
         style="@style/today_item" />
     <TextView
@@ -41,7 +41,7 @@
     <TextView
         android:id="@+id/size_value"
         android:layout_weight="0.12"
-        android:text="N/A"
+        android:text="Baby's size will be populated after at least 4 weeks of conception."
         tools:text="Overlay"
         style="@style/today_item" />
     <TextView

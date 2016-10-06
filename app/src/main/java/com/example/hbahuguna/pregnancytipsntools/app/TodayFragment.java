@@ -67,20 +67,22 @@ public class TodayFragment extends Fragment {
         if (mRootView == null) {
             return;
         }
-        DataAdapter mDbHelper = new DataAdapter(this.getActivity());
-        mDbHelper.createDatabase();
-        mDbHelper.open();
         mBabyDays = (TextView) mRootView.findViewById(R.id.days_value);
         mBabySize = (TextView) mRootView.findViewById(R.id.size_value);
         mBabyDaysLeft = (TextView) mRootView.findViewById(R.id.countDown_value);
         mBabyDevelopment = (TextView) mRootView.findViewById(R.id.development_value);
-        mBabyDays.setText(mWeeks + " weeks");
-        int weeksLeft = 40 - mWeeks;
-        mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
-        String filter = "where _id = " + mWeeks;
-        mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData("size", "items", filter).getString(0));
-        mBabyDevelopment.setText(mDbHelper.getData("development", "items", filter).getString(0));
-        mDbHelper.close();
+        if(mWeeks >= 1) {
+            DataAdapter mDbHelper = new DataAdapter(this.getActivity());
+            mDbHelper.createDatabase();
+            mDbHelper.open();
+            mBabyDays.setText(mWeeks + " weeks");
+            int weeksLeft = 40 - mWeeks;
+            mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
+            String filter = "where _id = " + mWeeks;
+            mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData("size", "items", filter).getString(0));
+            mBabyDevelopment.setText(mDbHelper.getData("development", "items", filter).getString(0));
+            mDbHelper.close();
+        }
     }
 
 }
