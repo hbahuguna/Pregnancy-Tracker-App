@@ -84,7 +84,7 @@ public class PlannerFragment extends Fragment implements OnDateSelectedListener 
         mConceptionDay = this.getActivity().getSharedPreferences(KEY, Context.MODE_PRIVATE).getInt(CONCEPTION_DAY,d1.dayOfMonth().get());
 
         int birthYear = mConceptionYear;
-        int birthMonth = mConceptionMonth + 10;
+        int birthMonth = mConceptionMonth + 11;
         if(mConceptionMonth > 3) {
             birthYear++;
             birthMonth -= 12;
