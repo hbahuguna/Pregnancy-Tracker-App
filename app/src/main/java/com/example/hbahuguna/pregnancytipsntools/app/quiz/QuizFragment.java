@@ -21,6 +21,9 @@ import android.widget.TextView;
 import com.example.hbahuguna.pregnancytipsntools.app.R;
 import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
 import com.example.hbahuguna.pregnancytipsntools.app.planner.PlannerFragment;
+import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -153,6 +156,7 @@ public class QuizFragment extends Fragment {
             rdf.setVisibility(View.VISIBLE);
             rdf.setText(nextQ.getOPTF());
         }
+        Utils.showAd(mRootView);
         qid++;
     }
 

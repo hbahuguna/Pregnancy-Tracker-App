@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 
 import com.example.hbahuguna.pregnancytipsntools.app.R;
 import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;

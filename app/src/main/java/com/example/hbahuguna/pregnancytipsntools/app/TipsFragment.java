@@ -48,6 +48,8 @@ public class TipsFragment extends Fragment {
             mTip.setText(mDbHelper.getData("tip", "items", filter).getString(0));
             mDbHelper.close();
         }
+        //ad
+        Utils.showAd(mRootView);
         return mRootView;
     }
 

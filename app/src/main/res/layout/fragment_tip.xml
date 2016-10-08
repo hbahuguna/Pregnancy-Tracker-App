@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:ads="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -9,11 +10,19 @@
     <TextView
         android:id="@+id/tip_heading"
         android:text="Tip of the week"
-        tools:text="Overlay"
+        android:paddingBottom="40dp"
         style="@style/today_item_heading" />
     <TextView
         android:id="@+id/tip"
         android:text="Your first tip will be populated after at least one week of conception."
-        tools:text="Overlay"
+        android:paddingTop="40dp"
         style="@style/tip_item" />
-</LinearLayout>
+    <com.google.android.gms.ads.AdView
+        android:id="@+id/adView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        ads:adSize="BANNER"
+        ads:adUnitId="@string/banner_ad_unit_id"/>
+</RelativeLayout>

@@ -12,6 +12,8 @@ import android.widget.TextView;
 
 import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
 import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.joda.time.DateTime;
 import org.joda.time.Weeks;
@@ -79,10 +81,12 @@ public class TodayFragment extends Fragment {
             int weeksLeft = 40 - mWeeks;
             mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
             String filter = "where _id = " + mWeeks;
-            mBabySize.setText("Your baby is now as big as a " + mDbHelper.getData("size", "items", filter).getString(0));
+            mBabySize.setText("Your baby is now as big as " + mDbHelper.getData("size", "items", filter).getString(0));
             mBabyDevelopment.setText(mDbHelper.getData("development", "items", filter).getString(0));
             mDbHelper.close();
         }
+        //ad
+        Utils.showAd(mRootView);
     }
 
 }

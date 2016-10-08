@@ -1,6 +1,9 @@
 package com.example.hbahuguna.pregnancytipsntools.app;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
@@ -15,6 +18,8 @@ import android.widget.Toast;
 import java.util.Calendar;
 import android.content.DialogInterface;
 
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 import com.roughike.bottombar.BottomBar;
 import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
@@ -30,16 +35,19 @@ public class MainActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
 
     private TextView dateTextView;
+    private AdView mAdView;
 
     static final String KEY_IS_FIRST_TIME =  "com.pregnancytipsntools.first_time";
     static final String KEY =  "com.pregnancytipsntools";
     static final String CONCEPTION_DAY =  "day";
     static final String CONCEPTION_MONTH =  "month";
     static final String CONCEPTION_YEAR =  "year";
+    static final int REQUEST_CODE = 0;
     BottomBar bottomBar;
     Bundle instanceState = null;
 
     private FrameLayout frameLayout;
+    private PendingIntent pendingIntent;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -78,10 +86,20 @@ public class MainActivity extends AppCompatActivity implements
                     dpd.show(getFragmentManager(), "Datepickerdialog");
                 }
             });
+            //ad
+            mAdView = (AdView) findViewById(R.id.adView);
+            AdRequest adRequest = new AdRequest.Builder().build();
+            mAdView.loadAd(adRequest);
         } else {
             todayView();
+            //notification
+            Intent intent = new Intent(MainActivity.this, Receiver.class);
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, REQUEST_CODE, intent, 0);
+            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
+            am.setRepeating(am.RTC_WAKEUP, System.currentTimeMillis(), am.INTERVAL_DAY * 7, pendingIntent);
         }
-
+        //google analytics
+        ((MyApplication) getApplication()).startTracking();
     }
 
     public  void todayView() {
@@ -115,7 +133,7 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt("tab_id", bottomBar.getCurrentTabId());
+        //outState.putInt("tab_id", bottomBar.getCurrentTabId());
     }
 
     public boolean isFirstTime(){

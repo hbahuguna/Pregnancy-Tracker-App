@@ -2,6 +2,11 @@ package com.example.hbahuguna.pregnancytipsntools.app.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.view.View;
+
+import com.example.hbahuguna.pregnancytipsntools.app.R;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
 
 import org.joda.time.DateTime;
 import org.joda.time.Days;
@@ -32,6 +37,12 @@ public class Utils {
     public static int getWeeks(Activity activity) {
         DateTime d1 = new DateTime();
         return Weeks.weeksBetween(Utils.getConceptionDay(activity, d1), d1).getWeeks();
+    }
+
+    public static void showAd(View view) {
+        AdView mAdView = (AdView) view.findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
 }
