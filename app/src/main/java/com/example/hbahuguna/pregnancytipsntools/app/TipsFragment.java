@@ -4,6 +4,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,12 +19,15 @@ import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
 /**
  * Created by himanshu on 10/2/16.
  */
-public class TipsFragment extends Fragment {
+public class TipsFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
 
     private static final String TAG = "TipsFragment";
 
     private static final String LOG_TAG = TipsFragment.class.getSimpleName();
     static final String TIPS_URI = "TIPS_URI";
+    static final String[] COLUMNS = {BabyContract.ItemsEntry.COLUMN_TIP};
+    private String[] selectionArgs ;
+
 
     private Uri mUri;
     private View mRootView;
@@ -39,22 +45,6 @@ public class TipsFragment extends Fragment {
 
         mRootView = inflater.inflate(R.layout.fragment_tip, container, false);
         Utils.toolBar(mRootView, (AppCompatActivity) getActivity());
-        mTip = (TextView) mRootView.findViewById(R.id.tip);
-        if(mWeeks >= 1) {
-            String[] tip = {BabyContract.ItemsEntry.COLUMN_TIP};
-            String selection = BabyContract.ItemsEntry.COLUMN_ID ;
-            String[] selectionArgs = {Integer.toString(mWeeks)};
-            Cursor tipCursor = this.getActivity().getContentResolver().query(BabyContract.ItemsEntry.CONTENT_URI,
-                    tip,
-                    selection,
-                    selectionArgs,
-                    null,
-                    null);
-            mTip.setText(tipCursor.getString(0));
-            tipCursor.close();
-        }
-        //ad
-        Utils.showAd(mRootView);
         return mRootView;
     }
 
@@ -66,7 +56,37 @@ public class TipsFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
     }
+
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        selectionArgs = new String[1];
+        selectionArgs[0] = Integer.toString(mWeeks);
+        return new CursorLoader(
+                getActivity(),
+                BabyContract.ItemsEntry.CONTENT_URI,
+                COLUMNS,
+                BabyContract.ItemsEntry.COLUMN_ID,
+                selectionArgs,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        mTip = (TextView) mRootView.findViewById(R.id.tip);
+        if (data != null && data.moveToFirst()) {
+            if (mWeeks >= 1) {
+                mTip.setText(data.getString(0));
+            }
+            //ad
+            Utils.showAd(mRootView);
+        }
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) { }
 
 }

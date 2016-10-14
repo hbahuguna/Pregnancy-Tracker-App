@@ -4,6 +4,9 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.CursorLoader;
+import android.support.v4.content.Loader;
 import android.support.v7.app.AppCompatActivity;
 import android.text.method.ScrollingMovementMethod;
 import android.view.LayoutInflater;
@@ -27,7 +30,7 @@ import butterknife.ButterKnife;
 /**
  * Created by himanshu on 10/1/16.
  */
-public class QuizFragment extends Fragment {
+public class QuizFragment extends Fragment implements LoaderManager.LoaderCallbacks<Cursor> {
     public static final String QUIZ_URI = "QUIZ_URI";
     private static String TAG = "QuizFragment";
 
@@ -58,75 +61,8 @@ public class QuizFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_quiz, container, false);
         Utils.toolBar(mRootView, (AppCompatActivity) getActivity());
         ButterKnife.bind(this.getActivity());
-        String[] quest = {BabyContract.QuestEntry.COLUMN_ID,BabyContract.QuestEntry.COLUMN_QUESTION,
-                BabyContract.QuestEntry.COLUMN_OPTION1,BabyContract.QuestEntry.COLUMN_OPTION2,
-                BabyContract.QuestEntry.COLUMN_OPTION3,BabyContract.QuestEntry.COLUMN_OPTION4,
-                BabyContract.QuestEntry.COLUMN_OPTION5,BabyContract.QuestEntry.COLUMN_CATEGORY,BabyContract.QuestEntry.COLUMN_OPTION6};
-        Cursor questCursor = this.getActivity().getContentResolver().query(BabyContract.QuestEntry.CONTENT_URI,
-                quest,
-                null,
-                null,
-                null,
-                null);
-        quesList = new ArrayList<>();
-        if (questCursor.moveToFirst()){
-            do{
-                Question q = new Question(questCursor.getInt(0),questCursor.getString(1),questCursor.getString(2),questCursor.getString(3),
-                        questCursor.getString(4),questCursor.getString(5),questCursor.getString(6),questCursor.getString(7),questCursor.getString(8));
-                quesList.add(q);
-           } while(questCursor.moveToNext());
-        }
-        questCursor.close();
-        result=(TextView)mRootView.findViewById(R.id.textResult);
-        result.setMovementMethod(new ScrollingMovementMethod());
-        result.setText(getString(R.string.quiz_intro));
-        txtQuestion=(TextView)mRootView.findViewById(R.id.textView1);
-        rda=(RadioButton)mRootView.findViewById(R.id.radio0);
-        rdb=(RadioButton)mRootView.findViewById(R.id.radio1);
-        rdc=(RadioButton)mRootView.findViewById(R.id.radio2);
-        rdd=(RadioButton)mRootView.findViewById(R.id.radio3);
-        rde=(RadioButton)mRootView.findViewById(R.id.radio4);
-        rdf=(RadioButton)mRootView.findViewById(R.id.radio5);
-        butNext=(Button)mRootView.findViewById(R.id.button1);
-        txtQuestion.setVisibility(View.GONE);
-        rda.setVisibility(View.GONE);
-        rdb.setVisibility(View.GONE);
-        rdc.setVisibility(View.GONE);
-        rdd.setVisibility(View.GONE);
-        rde.setVisibility(View.GONE);
-        rdf.setVisibility(View.GONE);
-        butNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(qid < 19){
-                    nextQ=quesList.get(qid);
-                    if(qid > 0)
-                        currentQ=quesList.get(qid-1);
-                    if(currentQ != null) {
-                        RadioGroup grp=(RadioGroup) mRootView.findViewById(R.id.radioGroup1);
-                        RadioButton answer=(RadioButton)mRootView.findViewById(grp.getCheckedRadioButtonId());
 
-                        if (currentQ.getCategory().equals("sex")) {
-                            sexScore += currentQ.getScore(answer.getText().toString());
-                        } else if (currentQ.getCategory().equals("cognitive")) {
-                            cognitiveScore += currentQ.getScore(answer.getText().toString());
-                        } else if (currentQ.getCategory().equals("appetite")) {
-                            if (qid != 11) {
-                                appetiteScore += currentQ.getScore(answer.getText().toString());
-                            } else {
-                                appetiteScore *= currentQ.getScore(answer.getText().toString());
-                            }
-                        } else if (currentQ.getCategory().equals("bodyImage")) {
-                            bodyImageScore += currentQ.getScore(answer.getText().toString());
-                        }
-                    }
-                    setQuestionView();
-                } else {
-                    overAllScore = sexScore * 3 + cognitiveScore * 3 + appetiteScore + bodyImageScore ;
-                    setResultView();
-                }
-            }
-        });
+
         return mRootView;
     }
 
@@ -216,7 +152,89 @@ public class QuizFragment extends Fragment {
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
+        getLoaderManager().initLoader(0, null, this);
         super.onActivityCreated(savedInstanceState);
-        //getActivity().setTitle("Quality Of Life Quiz");
     }
+    @Override
+    public Loader<Cursor> onCreateLoader(int id, Bundle args) {
+        String[] quest = {BabyContract.QuestEntry.COLUMN_ID,BabyContract.QuestEntry.COLUMN_QUESTION,
+                BabyContract.QuestEntry.COLUMN_OPTION1,BabyContract.QuestEntry.COLUMN_OPTION2,
+                BabyContract.QuestEntry.COLUMN_OPTION3,BabyContract.QuestEntry.COLUMN_OPTION4,
+                BabyContract.QuestEntry.COLUMN_OPTION5,BabyContract.QuestEntry.COLUMN_CATEGORY,BabyContract.QuestEntry.COLUMN_OPTION6};
+        return new CursorLoader(
+                getActivity(),
+                BabyContract.QuestEntry.CONTENT_URI,
+                quest,
+                null,
+                null,
+                null
+        );
+    }
+
+    @Override
+    public void onLoadFinished(Loader<Cursor> loader, Cursor data) {
+        quesList = new ArrayList<>();
+        if (data.moveToFirst()){
+            do{
+                Question q = new Question(data.getInt(0),data.getString(1),data.getString(2),data.getString(3),
+                        data.getString(4),data.getString(5),data.getString(6),data.getString(7),data.getString(8));
+                quesList.add(q);
+            } while(data.moveToNext());
+        }
+        result=(TextView)mRootView.findViewById(R.id.textResult);
+        result.setMovementMethod(new ScrollingMovementMethod());
+        result.setText(getString(R.string.quiz_intro));
+        txtQuestion=(TextView)mRootView.findViewById(R.id.textView1);
+        rda=(RadioButton)mRootView.findViewById(R.id.radio0);
+        rdb=(RadioButton)mRootView.findViewById(R.id.radio1);
+        rdc=(RadioButton)mRootView.findViewById(R.id.radio2);
+        rdd=(RadioButton)mRootView.findViewById(R.id.radio3);
+        rde=(RadioButton)mRootView.findViewById(R.id.radio4);
+        rdf=(RadioButton)mRootView.findViewById(R.id.radio5);
+        butNext=(Button)mRootView.findViewById(R.id.button1);
+        txtQuestion.setVisibility(View.GONE);
+        rda.setVisibility(View.GONE);
+        rdb.setVisibility(View.GONE);
+        rdc.setVisibility(View.GONE);
+        rdd.setVisibility(View.GONE);
+        rde.setVisibility(View.GONE);
+        rdf.setVisibility(View.GONE);
+        butNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(qid < 19){
+                    nextQ=quesList.get(qid);
+                    if(qid > 0)
+                        currentQ=quesList.get(qid-1);
+                    if(currentQ != null) {
+                        RadioGroup grp=(RadioGroup) mRootView.findViewById(R.id.radioGroup1);
+                        RadioButton answer=(RadioButton)mRootView.findViewById(grp.getCheckedRadioButtonId());
+
+                        if (currentQ.getCategory().equals("sex")) {
+                            sexScore += currentQ.getScore(answer.getText().toString());
+                        } else if (currentQ.getCategory().equals("cognitive")) {
+                            cognitiveScore += currentQ.getScore(answer.getText().toString());
+                        } else if (currentQ.getCategory().equals("appetite")) {
+                            if (qid != 11) {
+                                appetiteScore += currentQ.getScore(answer.getText().toString());
+                            } else {
+                                appetiteScore *= currentQ.getScore(answer.getText().toString());
+                            }
+                        } else if (currentQ.getCategory().equals("bodyImage")) {
+                            bodyImageScore += currentQ.getScore(answer.getText().toString());
+                        }
+                    }
+                    setQuestionView();
+                } else {
+                    overAllScore = sexScore * 3 + cognitiveScore * 3 + appetiteScore + bodyImageScore ;
+                    setResultView();
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onLoaderReset(Loader<Cursor> loader) { }
+
+
 }
