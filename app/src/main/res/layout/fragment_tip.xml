@@ -7,13 +7,22 @@
     android:layout_height="match_parent"
     android:background="@color/white">
 
-    <TextView
-        android:id="@+id/tip_heading"
-        android:text="Tip of the week"
-        android:paddingBottom="40dp"
-        style="@style/today_item_heading" />
+    <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        style="@style/toolbar"
+        android:id="@+id/my_toolbar"
+        app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+        android:elevation="4dp">
+        <TextView
+            android:text="Tip of the Week"
+            style="@style/today_item_heading"
+            android:id="@+id/toolbar_title" />
+    </android.support.v7.widget.Toolbar>
+
     <TextView
         android:id="@+id/tip"
+        android:layout_below="@+id/my_toolbar"
         android:text="Your first tip will be populated after at least one week of conception."
         android:paddingTop="40dp"
         style="@style/tip_item" />

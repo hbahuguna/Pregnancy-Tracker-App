@@ -1,37 +1,28 @@
 package com.example.hbahuguna.pregnancytipsntools.app;
 
-import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.res.Configuration;
-import android.graphics.Color;
 import android.support.annotation.IdRes;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
 import android.widget.TextView;
-import android.widget.Toast;
-import java.util.Calendar;
-import android.content.DialogInterface;
 
+import java.util.Calendar;
+
+import com.facebook.stetho.Stetho;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.roughike.bottombar.BottomBar;
-import com.roughike.bottombar.OnTabReselectListener;
 import com.roughike.bottombar.OnTabSelectListener;
-import com.wdullaer.materialdatetimepicker.Utils;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
-import com.wdullaer.materialdatetimepicker.time.RadialPickerLayout;
 
 import net.danlew.android.joda.JodaTimeAndroid;
-
-import org.joda.time.DateTime;
 
 public class MainActivity extends AppCompatActivity implements
         DatePickerDialog.OnDateSetListener {
@@ -54,6 +45,10 @@ public class MainActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Stetho.newInitializerBuilder(this)
+                .enableDumpapp(Stetho.defaultDumperPluginsProvider(this))
+                .enableWebKitInspector(Stetho.defaultInspectorModulesProvider(this))
+                .build();
         final Bundle instanceState1 = savedInstanceState;
         int currentOrientation = getResources().getConfiguration().orientation;
         if (currentOrientation == Configuration.ORIENTATION_LANDSCAPE) {
@@ -101,11 +96,6 @@ public class MainActivity extends AppCompatActivity implements
             mAdView.loadAd(adRequest);
         } else {
             todayView();
-            //notification
-            Intent intent = new Intent(MainActivity.this, Receiver.class);
-            PendingIntent pendingIntent = PendingIntent.getBroadcast(MainActivity.this, REQUEST_CODE, intent, 0);
-            AlarmManager am = (AlarmManager)getSystemService(ALARM_SERVICE);
-            am.setRepeating(am.RTC_WAKEUP, System.currentTimeMillis(), am.INTERVAL_DAY * 7, pendingIntent);
         }
         //google analytics
         ((MyApplication) getApplication()).startTracking();

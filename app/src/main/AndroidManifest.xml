@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:screenOrientation="nosensor"
         android:name=".MyApplication"
-        android:theme="@style/AppTheme">
+        android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -23,8 +23,18 @@
             </intent-filter>
         </activity>
         <activity android:name="com.google.android.gms.ads.AdActivity"
-                  android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
-        <receiver android:name=".Receiver"></receiver>
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"/>
+        <receiver android:name="WidgetProvider" >
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+            <meta-data android:name="android.appwidget.provider"
+                android:resource="@xml/widget_info" />
+        </receiver>
+        <provider
+            android:name=".data.BabyDataProvider"
+            android:authorities="com.example.hbahuguna.pregnancytipsntools.app" >
+        </provider>
     </application>
 
 </manifest>

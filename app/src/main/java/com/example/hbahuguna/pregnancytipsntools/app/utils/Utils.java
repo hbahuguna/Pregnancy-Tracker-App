@@ -2,6 +2,8 @@ package com.example.hbahuguna.pregnancytipsntools.app.utils;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 
 import com.example.hbahuguna.pregnancytipsntools.app.R;
@@ -43,6 +45,16 @@ public class Utils {
         AdView mAdView = (AdView) view.findViewById(R.id.adView);
         AdRequest adRequest = new AdRequest.Builder().build();
         mAdView.loadAd(adRequest);
+    }
+
+    public static void toolBar(View view, AppCompatActivity activity, boolean setDisplayHomeAsUpEnabled) {
+        Toolbar myToolbar = (Toolbar) view.findViewById(R.id.my_toolbar);
+        activity.setSupportActionBar(myToolbar);
+        activity.getSupportActionBar().setDisplayHomeAsUpEnabled(setDisplayHomeAsUpEnabled);
+    }
+
+    public static void toolBar(View view, AppCompatActivity activity) {
+        toolBar(view, activity,false);
     }
 
 }

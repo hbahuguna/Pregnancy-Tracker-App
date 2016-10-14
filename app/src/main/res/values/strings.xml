@@ -10,4 +10,23 @@
     <string name="menu_settings">Settings</string>
     <string name="quiz_result">Quiz Result</string>
     <string name="banner_ad_unit_id">ca-app-pub-3940256099942544/6300978111</string>
+    <string name="quiz_intro">This quiz is about understanding yourself and all the experiences that make up pregnancy. This quiz is designed to help you get a sense of how you are experiencing your pregnancy:
+        how you feel about yourself, your journey and the promise of parenthood.An overall score will be calculated at the end to help you navigate the pregnancy. Take the quiz as often as you like, especially as you grow and learn about yourself during these nine months.
+                Your score may change along the way--and thats because you will too.</string>
+    <string name="sex3to6">Your interest in sex may have gone up since you got pregnant. This is due to the harmones.</string>
+    <string name="sex7to11">Your interest in sex is about what it was before you got pregnant. Enjoy!</string>
+    <string name="sex11up">You are showing less in interest in sex than you may used to be.If you are feeling a much lower interest in sex even during the second trimester, you might want to chaeckout some tips for adding sensuality into your life.</string>
+    <string name="cognitive3to6">Congrats! Even though you pregnant, you have sharp focus.</string>
+    <string name="cognitive7to11">You may feel less indecisive than before, and you may have trouble remembering things. This is quite normal during pregnancy.</string>
+    <string name="cognitive11up">You seem to be having a lot trouble thinking since you got pregnant. If you feel that you have slipped quite a bit, then you need to review aspects of your lifestyle</string>
+    <string name="appetite4to30">You are eating well, If you feel some nausea, its quite normal.</string>
+    <string name="appetite31to50">Nausea is affecting your eating.Its important to listen to your body. You can make some simple diet changes to feel better.</string>
+    <string name="appetite51to70">You are experiencing moderate nausea, which is affecting the way you eat. You may be having some cravings. It may be time to work on you diet to give your baby the nutrients needed for healthy brain and body development.</string>
+    <string name="appetite71up">Nausea is having a great affect on what you eat. If you are in the first trimester remember its that when nausea is worst. You will need to make best choices about foods.</string>
+    <string name="bodyimage8to16">You dont seem to be much worried about your body. Make sure though that you are still in shape.</string>
+    <string name="bodyimage17to32">You have a small amount of concern about your body image. Make sure that you eat balanced meals and nutritious foods. Remember exercise is good for you and your baby.</string>
+    <string name="bodyImage32up">You have quite a bit concern about your body. Its really crucial that you exercise and eat balanced, nutritious meals during pregnancy.</string>
+    <string name="overall29to70">Congratulations! You have acheived some real balance in your pregnant life. There is a lot ahead of you but you are quite centered so far</string>
+    <string name="overall71to150">Like most pregnant women, there are days when you have it together and days when things seem beyond your grasp.</string>
+    <string name="overall150up">Between your nausea, your inablity to think straight, and your negative feelings about your body, you are probably looking at pregnancy more like a never ending traffic jam than an olympic gymnastic event. All the same, you are in the middle of one of the life\'s peak experiences. You should take a look at the tips section of the app!</string>
 </resources>

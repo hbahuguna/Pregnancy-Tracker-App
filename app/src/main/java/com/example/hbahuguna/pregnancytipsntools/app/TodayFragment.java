@@ -1,22 +1,17 @@
 package com.example.hbahuguna.pregnancytipsntools.app;
 
-import android.content.Context;
 import android.database.Cursor;
 import android.support.v4.app.Fragment;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
+import com.example.hbahuguna.pregnancytipsntools.app.data.BabyContract;
 import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
-
-import org.joda.time.DateTime;
-import org.joda.time.Weeks;
 
 /**
  * Created by himanshu on 9/5/16.
@@ -49,6 +44,7 @@ public class TodayFragment extends Fragment {
         }
 
         mRootView = inflater.inflate(R.layout.fragment_today, container, false);
+        Utils.toolBar(mRootView, (AppCompatActivity) getActivity());
         bindViews();
         return mRootView;
     }
@@ -62,7 +58,7 @@ public class TodayFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle("Your Baby Today");
+        //getActivity().setTitle("Your Baby Today");
     }
 
     private void bindViews() {
@@ -74,16 +70,21 @@ public class TodayFragment extends Fragment {
         mBabyDaysLeft = (TextView) mRootView.findViewById(R.id.countDown_value);
         mBabyDevelopment = (TextView) mRootView.findViewById(R.id.development_value);
         if(mWeeks >= 1) {
-            DataAdapter mDbHelper = new DataAdapter(this.getActivity());
-            mDbHelper.createDatabase();
-            mDbHelper.open();
             mBabyDays.setText(mWeeks + " weeks");
             int weeksLeft = 40 - mWeeks;
             mBabyDaysLeft.setText(weeksLeft + " weeks to go!");
-            String filter = "where _id = " + mWeeks;
-            mBabySize.setText("Your baby is now as big as " + mDbHelper.getData("size", "items", filter).getString(0));
-            mBabyDevelopment.setText(mDbHelper.getData("development", "items", filter).getString(0));
-            mDbHelper.close();
+            String[] columns = {BabyContract.ItemsEntry.COLUMN_SIZE,BabyContract.ItemsEntry.COLUMN_DEVELOPMENT};
+            String selection = BabyContract.ItemsEntry.COLUMN_ID;
+            String[] selectionArgs = {Integer.toString(mWeeks)};
+            Cursor cursor = this.getActivity().getContentResolver().query(BabyContract.ItemsEntry.CONTENT_URI,
+                    columns,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null);
+            mBabySize.setText("Your baby is now as big as " + cursor.getString(0));
+            mBabyDevelopment.setText(cursor.getString(1));
+            cursor.close();
         }
         //ad
         Utils.showAd(mRootView);

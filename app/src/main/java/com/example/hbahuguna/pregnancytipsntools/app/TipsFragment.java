@@ -1,18 +1,17 @@
 package com.example.hbahuguna.pregnancytipsntools.app;
 
+import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
+import com.example.hbahuguna.pregnancytipsntools.app.data.BabyContract;
 import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
-
-import org.joda.time.DateTime;
-import org.joda.time.Weeks;
 
 /**
  * Created by himanshu on 10/2/16.
@@ -39,14 +38,20 @@ public class TipsFragment extends Fragment {
         }
 
         mRootView = inflater.inflate(R.layout.fragment_tip, container, false);
+        Utils.toolBar(mRootView, (AppCompatActivity) getActivity());
         mTip = (TextView) mRootView.findViewById(R.id.tip);
         if(mWeeks >= 1) {
-            DataAdapter mDbHelper = new DataAdapter(this.getActivity());
-            mDbHelper.createDatabase();
-            mDbHelper.open();
-            String filter = "where _id = " + mWeeks;
-            mTip.setText(mDbHelper.getData("tip", "items", filter).getString(0));
-            mDbHelper.close();
+            String[] tip = {BabyContract.ItemsEntry.COLUMN_TIP};
+            String selection = BabyContract.ItemsEntry.COLUMN_ID ;
+            String[] selectionArgs = {Integer.toString(mWeeks)};
+            Cursor tipCursor = this.getActivity().getContentResolver().query(BabyContract.ItemsEntry.CONTENT_URI,
+                    tip,
+                    selection,
+                    selectionArgs,
+                    null,
+                    null);
+            mTip.setText(tipCursor.getString(0));
+            tipCursor.close();
         }
         //ad
         Utils.showAd(mRootView);
@@ -62,7 +67,6 @@ public class TipsFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle("Pregnancy tips");
     }
 
 }

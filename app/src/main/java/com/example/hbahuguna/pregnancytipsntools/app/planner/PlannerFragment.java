@@ -11,14 +11,14 @@ import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
+import android.support.v7.app.AppCompatActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.hbahuguna.pregnancytipsntools.app.R;
-import com.example.hbahuguna.pregnancytipsntools.app.data.DataAdapter;
-import com.google.android.gms.ads.AdRequest;
-import com.google.android.gms.ads.AdView;
+import com.example.hbahuguna.pregnancytipsntools.app.data.BabyContract;
+import com.example.hbahuguna.pregnancytipsntools.app.utils.Utils;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 import com.prolificinteractive.materialcalendarview.OnDateSelectedListener;
@@ -72,6 +72,7 @@ public class PlannerFragment extends Fragment implements OnDateSelectedListener 
         }
 
         mRootView = inflater.inflate(R.layout.fragment_planner, container, false);
+        Utils.toolBar(mRootView, (AppCompatActivity) getActivity());
         ButterKnife.bind(this.getActivity());
 
         widget = (MaterialCalendarView) mRootView.findViewById(R.id.calendarView);
@@ -137,7 +138,7 @@ public class PlannerFragment extends Fragment implements OnDateSelectedListener 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
-        getActivity().setTitle("Pregnancy Planner");
+        //getActivity().setTitle("Pregnancy Planner");
     }
 
     private class ApiSimulator extends AsyncTask<Void, Void, List<CalendarDay>> {
@@ -155,12 +156,16 @@ public class PlannerFragment extends Fragment implements OnDateSelectedListener 
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            DataAdapter mDbHelper = new DataAdapter(activity);
-            mDbHelper.createDatabase();
-            mDbHelper.open();
+            String[] planner = {BabyContract.PlannerEntry.COLUMN_ID,BabyContract.PlannerEntry.COLUMN_DETAIL,
+                    BabyContract.PlannerEntry.COLUMN_DESCRIPTION};
+            Cursor cursor = activity.getContentResolver().query(BabyContract.PlannerEntry.CONTENT_URI,
+                    planner,
+                    null,
+                    null,
+                    null,
+                    null);
             List<Integer> days = new ArrayList<>();
             Map<Integer, List<String>> event = new HashMap<>();
-            Cursor cursor = mDbHelper.getData("_id, detail, description", "planner");
             int x = 0;
             if (cursor.moveToFirst()){
                 do{
@@ -179,7 +184,6 @@ public class PlannerFragment extends Fragment implements OnDateSelectedListener 
                 daysDiff.add(dayDiff);
             }
             cursor.close();
-            mDbHelper.close();
             Calendar calendar = Calendar.getInstance();
             calendar.set(mConceptionYear, mConceptionMonth, mConceptionDay);
             calendar.add(Calendar.DATE, daysDiff.get(0));
