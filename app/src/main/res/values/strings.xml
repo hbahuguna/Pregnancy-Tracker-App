@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Pregnancy Tools N Tips</string>
+    <string name="app_name">Pregnancy Tips N Tools</string>
     <string name="selected_date">Gestational age, or the age of the baby, is calculated from the first day of the mother’s last menstrual period.
         Since the exact date of conception is almost never known, the first day of the last menstrual period is used to measure how old the baby is.
         Please pick the first day of your last menstrual period using the Pick Date button below:</string>
@@ -9,7 +9,7 @@
     <string name="str_next">Next</string>
     <string name="menu_settings">Settings</string>
     <string name="quiz_result">Quiz Result</string>
-    <string name="banner_ad_unit_id">ca-app-pub-1690827296912303/1230407875</string>
+    <string name="banner_ad_unit_id">ca-app-pub-1690827296912303/8974000677</string>
     <string name="quiz_intro">This quiz is about understanding yourself and all the experiences that make up pregnancy. This quiz is designed to help you get a sense of how you are experiencing your pregnancy:
         how you feel about yourself, your journey and the promise of parenthood.An overall score will be calculated at the end to help you navigate the pregnancy. Take the quiz as often as you like, especially as you grow and learn about yourself during these nine months.
                 Your score may change along the way--and thats because you will too.</string>
